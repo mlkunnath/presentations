@@ -4,8 +4,8 @@ class DeckBox
   def initialize
     @decks = []
   end
-  def new_deck
-    deck_maker.call.tap do |deck|
+  def new_deck(*args)
+    deck_maker.call(*args).tap do |deck|
       deck.deck_box = self
     end
   end
@@ -14,6 +14,6 @@ class DeckBox
   end
   private
   def deck_maker
-    @deck_maker ||= Deck.new
+    @deck_maker ||= Deck.public_method(:new)
   end
 end

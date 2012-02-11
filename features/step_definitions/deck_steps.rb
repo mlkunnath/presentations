@@ -9,6 +9,6 @@ end
 
 Then /^I should see the deck titled "([^"]*)"$/ do |deck_title|
   within find(:css, 'li.deck') do
-    page.should have_text deck_title 
+    page.should have_content deck_title 
   end
 end

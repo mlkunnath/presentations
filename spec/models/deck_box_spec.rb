@@ -19,6 +19,14 @@ describe DeckBox do
     it "sets the decks deckbox reference to itself" do
       subject.new_deck.deck_box.must_equal subject
     end
+
+    it "accepts hash of options" do
+      deck_maker = MiniTest::Mock.new
+      deck_maker.expect(:call, new_deck, [{title: 'foo'}])
+      subject.deck_maker = deck_maker
+      subject.new_deck(title: 'foo')
+      deck_maker.verify
+    end
   end
 
   describe "#add_deck" do

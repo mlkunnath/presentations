@@ -12,7 +12,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'cucumber-rails'
   gem 'capybara'
-  #gem 'rspec-rails'
+  gem 'rspec-rails'
   gem 'minitest'
 end
 
@@ -26,6 +26,10 @@ group :assets do
   # gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :development do
+  gem 'launchy'
 end
 
 gem 'jquery-rails'
