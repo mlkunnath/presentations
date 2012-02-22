@@ -14,6 +14,7 @@ group :development, :test do
   gem 'capybara'
   gem 'rspec-rails'
   gem 'minitest'
+  gem 'activerecord-nulldb-adapter', :git => 'git://github.com/avdi/nulldb.git'
 end
 
 # Gems used only for assets and not required

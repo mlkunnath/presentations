@@ -1,10 +1,15 @@
-require 'minitest/autorun'
 require_relative '../spec_helper_lite'
-stub_module 'ActiveModel::Naming'
-stub_module 'ActiveModel::Conversion'
+require 'activerecord-nulldb-adapter'
 require_relative '../../app/models/deck'
 
 describe Deck do
+  include SpecHelpers
+  before do
+    setup_nulldb
+  end
+  after do
+    teardown_nulldb
+  end
   let(:subject){ Deck.new }
   it 'supports reading and writing title' do
     subject.title = "The New Title"
@@ -15,10 +20,7 @@ describe Deck do
     subject.deck_box = deck_box
     subject.deck_box.must_equal deck_box
   end
-  it 'supports a hash of attributes in the initializer' do
-    it = Deck.new(title: 'Foo')
-    it.title.must_equal 'Foo'
-  end
+
   describe "#publish" do
     let(:deck_box){ MiniTest::Mock.new }
     before do
@@ -30,6 +32,26 @@ describe Deck do
     it "adds the deck to the deck box" do
       deck_box.expect(:add_deck, nil, [subject])
       subject.publish
+    end
+  end
+
+  describe "#add_slide" do
+    it "adds the slide to the list of slides" do
+      entry = Object.new
+      subject.add_slide(entry)
+      subject.slides.must_include entry
+    end
+  end
+  describe "#new_slide" do
+    let(:new_slide){ OpenStruct.new }
+    before do
+      subject.slide_maker = ->{ new_slide }
+    end
+    it "returns a new slide" do
+      subject.new_slide.must_equal new_slide
+    end
+    it "sets the slides deck reference to itself" do
+      subject.new_slide.deck.must_equal subject
     end
   end
 end

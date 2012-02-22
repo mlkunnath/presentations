@@ -3,7 +3,8 @@ require 'ostruct'
 require_relative '../../app/models/deck_box'
 
 describe DeckBox do
-  subject{ DeckBox.new }
+  let(:decks){ [] }
+  subject{ DeckBox.new( ->{ decks}) } 
   it "has an empty deck list" do
     subject.decks.must_be_empty 
   end
@@ -30,10 +31,21 @@ describe DeckBox do
   end
 
   describe "#add_deck" do
-    it "adds the deck to deck list" do
-      entry = Object.new
+    it "saves the deck to deck list" do
+      entry = MiniTest::Mock.new 
+      entry.expect(:save, true, [])
       subject.add_deck(entry)
-      subject.decks.must_include entry
+    end
+  end
+
+  describe "find_deck" do
+    it "calls the deck finder" do
+      deck = Object.new
+      deck_finder = MiniTest::Mock.new
+      deck_finder.expect(:call, deck, [1])
+      subject.deck_finder = deck_finder 
+      subject.find_deck(1).must_equal deck
+      deck_finder.verify
     end
   end
 end

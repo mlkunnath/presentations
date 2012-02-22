@@ -1,5 +1,7 @@
 Presentations::Application.routes.draw do
-  resources :decks
+  resources :decks do
+    resources :slides
+  end
 
   root to: "decks#index"
   # The priority is based upon order of creation:

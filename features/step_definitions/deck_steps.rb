@@ -12,3 +12,8 @@ Then /^I should see the deck titled "([^"]*)"$/ do |deck_title|
     page.should have_content deck_title 
   end
 end
+
+Given /^There is a deck in the deckbox named "([^"]*)"$/ do  |deck_name|
+  @deck = THE_BOX.new_deck(title: deck_name)
+  THE_BOX.add_deck(@deck)
+end
